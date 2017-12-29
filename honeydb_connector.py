@@ -176,7 +176,7 @@ class HoneydbConnector(BaseConnector):
 
         # Required values can be accessed directly
         ip = param['ip']
-        feed = param['feed']
+        feed = param.get('feed', 'Both')
 
         summary = action_result.update_summary({})
         summary['ip'] = ip
