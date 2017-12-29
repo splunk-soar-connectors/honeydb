@@ -1,7 +1,7 @@
 {
     "appid": "5108aa7a-1c0c-4ed7-85a5-717dc6ee7f83",
     "name": "HoneyDB",
-    "description": "Performs investigative actions using the HoneyDB service",
+    "description": "Performs investigative actions on the HoneyDB service",
     "type": "information",
     "product_vendor": "HoneyDB",
     "logo": "honeydb.svg",
@@ -14,7 +14,7 @@
     "utctime_updated": "2017-12-28T01:28:45.037445Z",
     "package_name": "phantom_honeydb",
     "main_module": "honeydb_connector.pyc",
-    "min_phantom_version": "3.0.270",
+    "min_phantom_version": "3.0.251",
     "app_wizard_version": "1.0.0",
     "configuration": {
         "api_id": {
