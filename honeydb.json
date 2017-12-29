@@ -4,8 +4,8 @@
     "description": "Performs investigative actions on the HoneyDB service",
     "type": "information",
     "product_vendor": "HoneyDB",
-    "logo": "honeydb.svg",
-    "logo_dark": "honeydb_dark.svg",
+    "logo": "logo_honeydb.svg",
+    "logo_dark": "logo_honeydb_dark.svg",
     "product_name": "HoneyDB",
     "product_version_regex": ".*",
     "publisher": "Phantom",
@@ -34,7 +34,7 @@
         {
             "action": "test connectivity",
             "identifier": "test_connectivity",
-            "description": "Validate the asset configuration for connectivity using supplied configuration",
+            "description": "Validate the asset configuration for connectivity",
             "verbose": "",
             "type": "test",
             "read_only": true,
@@ -58,7 +58,7 @@
                     "contains": [
                         "ip"
                     ],
-                    "example_values":[
+                    "example_values": [
                         "104.192.3.34"
                     ],
                     "value_list": [],
