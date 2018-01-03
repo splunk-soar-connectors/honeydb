@@ -158,7 +158,7 @@ class HoneydbConnector(BaseConnector):
         if (phantom.is_fail(ret_val)):
             # the call to the 3rd party device or service failed, action result should contain all the error details
             # so just return from here
-            self.save_progress("Test Connectivity Failed. Error: {0}".format(action_result.get_message()))
+            self.save_progress("Test Connectivity Failed.")
             return action_result.get_status()
 
         # Return success
