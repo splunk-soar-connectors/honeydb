@@ -185,6 +185,10 @@ class HoneydbConnector(BaseConnector):
         summary['twitter_count'] = 0
         summary['twitter_last_seen'] = '0000-00-00'
 
+        if feed not in ('Bad Hosts', 'Twitter', 'Both'):
+            message = "Invalid option '{}'. Select 'Both', 'Bad Hosts', or 'Twitter'".format(feed)
+            return action_result.set_status(phantom.APP_ERROR, message)
+
         if feed in ('Bad Hosts', 'Both'):
             # These are hosts that have sent info back to the HoneyDB.
             ret_val, ips = self._make_rest_call(
@@ -250,10 +254,6 @@ class HoneydbConnector(BaseConnector):
                         }})
                 summary['twitter_count'] = twitter_count
                 summary['twitter_last_seen'] = twitter_last_seen
-
-        else:
-            message = "Invalid option '{}'. Select 'Both', 'Bad Hosts', or 'Twitter'".format(feed)
-            return action_result.set_status(phantom.APP_ERROR, message)
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
