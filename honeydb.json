@@ -187,6 +187,89 @@
                 "type": "table"
             },
             "versions": "EQ(*)"
+        },
+        {
+            "action": "get ips",
+            "identifier": "get_ips",
+            "description": "Retrieve a list of bad IPs depending on the feed",
+            "verbose": "Source feed to get the list from. <ul><li><b>Both</b>: Merges the Bad Hosts and Twitter feed lists of JSON dictionaries and searches for the IP with the additional information from Twitter for that specific IP</li><li><b>Bad Hosts</b>: Searches only in the list of bad hosts with no additional data from Twitter</li><li><b>Twitter</b>: Searches the IP in the Twitter feed with a list of tweets associated with that IP</li></ul>",
+            "type": "information",
+            "read_only": true,
+            "parameters": {
+                "feed": {
+                    "description": "Source feed: 'Both', 'Bad Hosts', 'Twitter'",
+                    "data_type": "string",
+                    "required": false,
+                    "primary": false,
+                    "value_list": [
+                        "Both",
+                        "Bad Hosts",
+                        "Twitter"
+                    ],
+                    "default": "Both",
+                    "order": 0
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data.*.ip",
+                    "description": "IP of the bad remote host",
+                    "data_type": "string",
+                    "contains": [
+                        "ip"
+                    ],
+                    "column_name": "IP",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.feed",
+                    "description": "Originating source feed; either Bad Hosts, or Twitter",
+                    "data_type": "string",
+                    "column_name": "Source feed",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.count",
+                    "data_type": "numeric",
+                    "column_name": "Counts",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.last_seen",
+                    "data_type": "numeric",
+                    "column_name": "Date Last Seen",
+                    "column_order": 3,
+                    "example_values": [
+                        "2017-07-27"
+                    ]
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.bad_hosts_ips",
+                    "data_type": "numeric",
+                    "example_values": [
+                        623
+                    ]
+                },
+                {
+                    "data_path": "summary.twitter_ips",
+                    "data_type": "numeric",
+                    "example_values": [
+                        712
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
         }
     ]
 }

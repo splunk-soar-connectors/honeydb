@@ -261,6 +261,69 @@ class HoneydbConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _handle_get_ips(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        # Access action parameters passed in the 'param' dictionary
+        # Required values can be accessed directly
+        feed = param.get('feed', 'Both')
+
+        summary = action_result.update_summary({})
+        summary['bad_hosts_ips'] = 0
+        summary['twitter_ips'] = 0
+
+        if feed not in ('Bad Hosts', 'Twitter', 'Both'):
+            message = "Invalid option '{}'. Select 'Both', 'Bad Hosts', or 'Twitter'".format(feed)
+            return action_result.set_status(phantom.APP_ERROR, message)
+
+        if feed in ('Bad Hosts', 'Both'):
+            # These are hosts that have sent info back to the HoneyDB.
+            ret_val, ips = self._make_rest_call(
+                '/bad-hosts',
+                action_result, params=None, headers=None)
+
+            if (phantom.is_fail(ret_val)):
+                # the call to the 3rd party device or service failed, action result should contain all the error details
+                # so just return from here
+                return action_result.get_status()
+            if len(ips) > 0:
+                for dict_ip in ips:
+                    action_result.add_data({
+                        'ip': dict_ip['remote_host'],
+                        'feed': 'Bad Hosts',
+                        'count': dict_ip['count'],
+                        'last_seen': dict_ip['last_seen'],
+                    })
+                summary['bad_hosts_ips'] = len(ips)
+
+        if feed in ('Twitter', 'Both'):
+            ret_val, ips = self._make_rest_call(
+                '/twitter-threat-feed',
+                action_result, params=None, headers=None)
+
+            if (phantom.is_fail(ret_val)):
+                return action_result.get_status()
+
+            if len(ips) > 0:
+                for dict_ip in ips:
+                    action_result.add_data({
+                        'ip': dict_ip['remote_host'],
+                        'feed': 'Twitter',
+                        'count': dict_ip['count'],
+                        'last_seen': dict_ip['last_seen'],
+                    })
+                summary['twitter_ips'] = len(ips)
+
+        # Return success, no need to set the message, only the status
+        # BaseConnector will create a textual message based off of the summary dictionary
+        # return action_result.set_status(phantom.APP_SUCCESS)
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
     def handle_action(self, param):
 
         ret_val = phantom.APP_SUCCESS
@@ -275,6 +338,9 @@ class HoneydbConnector(BaseConnector):
 
         elif action_id == 'lookup_ip':
             ret_val = self._handle_lookup_ip(param)
+
+        elif action_id == 'get_ips':
+            ret_val = self._handle_get_ips(param)
 
         return ret_val
 
