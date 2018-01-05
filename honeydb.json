@@ -189,11 +189,11 @@
             "versions": "EQ(*)"
         },
         {
-            "action": "get ips",
-            "identifier": "get_ips",
+            "action": "list ips",
+            "identifier": "list_ips",
             "description": "Retrieve a list of bad IPs depending on the feed",
-            "verbose": "Source feed to get the list from. <ul><li><b>Both</b>: Merges the Bad Hosts and Twitter feed lists of JSON dictionaries and searches for the IP with the additional information from Twitter for that specific IP</li><li><b>Bad Hosts</b>: Searches only in the list of bad hosts with no additional data from Twitter</li><li><b>Twitter</b>: Searches the IP in the Twitter feed with a list of tweets associated with that IP</li></ul>",
-            "type": "information",
+            "verbose": "Source feed to get the list from. <ul><li><b>Both</b>: Merges the Bad Hosts and Twitter feed lists of IPs</li><li><b>Bad Hosts</b>: List of bad hosts from the HoneyDB bad-hosts endpoint</li><li><b>Twitter</b>: List of IPs in Twitter feed</li></ul>",
+            "type": "investigate",
             "read_only": true,
             "parameters": {
                 "feed": {

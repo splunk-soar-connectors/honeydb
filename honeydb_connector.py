@@ -176,7 +176,12 @@ class HoneydbConnector(BaseConnector):
 
         # Required values can be accessed directly
         ip = param['ip']
-        feed = param.get('feed', 'Both')
+        feed = param.get('feed', 'both')
+
+        if feed.lower() not in ('bad hosts', 'twitter', 'both'):
+            message = "Invalid option '{}'. Select 'Both', 'Bad Hosts', or 'Twitter'".format(feed)
+            action_result.set_status(phantom.APP_ERROR, message)
+            return action_result.get_status()
 
         summary = action_result.update_summary({})
         summary['ip'] = ip
@@ -185,11 +190,7 @@ class HoneydbConnector(BaseConnector):
         summary['twitter_count'] = 0
         summary['twitter_last_seen'] = '0000-00-00'
 
-        if feed not in ('Bad Hosts', 'Twitter', 'Both'):
-            message = "Invalid option '{}'. Select 'Both', 'Bad Hosts', or 'Twitter'".format(feed)
-            return action_result.set_status(phantom.APP_ERROR, message)
-
-        if feed in ('Bad Hosts', 'Both'):
+        if feed.lower() in ('bad hosts', 'both'):
             # These are hosts that have sent info back to the HoneyDB.
             ret_val, ips = self._make_rest_call(
                 '/bad-hosts',
@@ -216,7 +217,7 @@ class HoneydbConnector(BaseConnector):
                         summary['bad_hosts_count'] = dict_ip['count']
                         summary['bad_hosts_last_seen'] = dict_ip['last_seen']
 
-        if feed in ('Twitter', 'Both'):
+        if feed.lower() in ('twitter', 'both'):
             ret_val, ips = self._make_rest_call(
                 '/twitter-threat-feed',
                 action_result, params=None, headers=None)
@@ -255,13 +256,9 @@ class HoneydbConnector(BaseConnector):
                 summary['twitter_count'] = twitter_count
                 summary['twitter_last_seen'] = twitter_last_seen
 
-        # Return success, no need to set the message, only the status
-        # BaseConnector will create a textual message based off of the summary dictionary
-        # return action_result.set_status(phantom.APP_SUCCESS)
-
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_get_ips(self, param):
+    def _handle_list_ips(self, param):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -270,17 +267,17 @@ class HoneydbConnector(BaseConnector):
 
         # Access action parameters passed in the 'param' dictionary
         # Required values can be accessed directly
-        feed = param.get('feed', 'Both')
+        feed = param.get('feed', 'both')
+        if feed.lower() not in ('bad hosts', 'twitter', 'both'):
+            message = "Invalid option '{}'. Select 'Both', 'Bad Hosts', or 'Twitter'".format(feed)
+            action_result.set_status(phantom.APP_ERROR, message)
+            return action_result.get_status()
 
         summary = action_result.update_summary({})
         summary['bad_hosts_ips'] = 0
         summary['twitter_ips'] = 0
 
-        if feed not in ('Bad Hosts', 'Twitter', 'Both'):
-            message = "Invalid option '{}'. Select 'Both', 'Bad Hosts', or 'Twitter'".format(feed)
-            return action_result.set_status(phantom.APP_ERROR, message)
-
-        if feed in ('Bad Hosts', 'Both'):
+        if feed.lower() in ('bad hosts', 'both'):
             # These are hosts that have sent info back to the HoneyDB.
             ret_val, ips = self._make_rest_call(
                 '/bad-hosts',
@@ -300,7 +297,7 @@ class HoneydbConnector(BaseConnector):
                     })
                 summary['bad_hosts_ips'] = len(ips)
 
-        if feed in ('Twitter', 'Both'):
+        if feed.lower() in ('twitter', 'both'):
             ret_val, ips = self._make_rest_call(
                 '/twitter-threat-feed',
                 action_result, params=None, headers=None)
@@ -317,10 +314,6 @@ class HoneydbConnector(BaseConnector):
                         'last_seen': dict_ip['last_seen'],
                     })
                 summary['twitter_ips'] = len(ips)
-
-        # Return success, no need to set the message, only the status
-        # BaseConnector will create a textual message based off of the summary dictionary
-        # return action_result.set_status(phantom.APP_SUCCESS)
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -339,8 +332,8 @@ class HoneydbConnector(BaseConnector):
         elif action_id == 'lookup_ip':
             ret_val = self._handle_lookup_ip(param)
 
-        elif action_id == 'get_ips':
-            ret_val = self._handle_get_ips(param)
+        elif action_id == 'list_ips':
+            ret_val = self._handle_list_ips(param)
 
         return ret_val
 
