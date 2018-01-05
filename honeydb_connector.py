@@ -183,6 +183,8 @@ class HoneydbConnector(BaseConnector):
             action_result.set_status(phantom.APP_ERROR, message)
             return action_result.get_status()
 
+        feed = feed.lower()
+
         summary = action_result.update_summary({})
         summary['ip'] = ip
         summary['bad_hosts_count'] = 0
@@ -190,7 +192,7 @@ class HoneydbConnector(BaseConnector):
         summary['twitter_count'] = 0
         summary['twitter_last_seen'] = '0000-00-00'
 
-        if feed.lower() in ('bad hosts', 'both'):
+        if feed in ('bad hosts', 'both'):
             # These are hosts that have sent info back to the HoneyDB.
             ret_val, ips = self._make_rest_call(
                 '/bad-hosts',
@@ -217,7 +219,7 @@ class HoneydbConnector(BaseConnector):
                         summary['bad_hosts_count'] = dict_ip['count']
                         summary['bad_hosts_last_seen'] = dict_ip['last_seen']
 
-        if feed.lower() in ('twitter', 'both'):
+        if feed in ('twitter', 'both'):
             ret_val, ips = self._make_rest_call(
                 '/twitter-threat-feed',
                 action_result, params=None, headers=None)
@@ -277,7 +279,9 @@ class HoneydbConnector(BaseConnector):
         summary['bad_hosts_ips'] = 0
         summary['twitter_ips'] = 0
 
-        if feed.lower() in ('bad hosts', 'both'):
+        feed = feed.lower()
+
+        if feed in ('bad hosts', 'both'):
             # These are hosts that have sent info back to the HoneyDB.
             ret_val, ips = self._make_rest_call(
                 '/bad-hosts',
@@ -297,7 +301,7 @@ class HoneydbConnector(BaseConnector):
                     })
                 summary['bad_hosts_ips'] = len(ips)
 
-        if feed.lower() in ('twitter', 'both'):
+        if feed in ('twitter', 'both'):
             ret_val, ips = self._make_rest_call(
                 '/twitter-threat-feed',
                 action_result, params=None, headers=None)
