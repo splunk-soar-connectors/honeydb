@@ -208,7 +208,7 @@ class HoneydbConnector(BaseConnector):
                         action_result.add_data({
                             'ip': ip,
                             'feed': 'Bad Hosts',
-                            'count': dict_ip['count'],
+                            'count': int(dict_ip['count']),
                             'last_seen': dict_ip['last_seen'],
                             'tweet': {
                                 'id': None,
@@ -216,7 +216,7 @@ class HoneydbConnector(BaseConnector):
                                 'screen_name': None,
                                 'text': None,
                             }})
-                        summary['bad_hosts_count'] = dict_ip['count']
+                        summary['bad_hosts_count'] = int(dict_ip['count'])
                         summary['bad_hosts_last_seen'] = dict_ip['last_seen']
 
         if feed in ('twitter', 'both'):
@@ -232,7 +232,7 @@ class HoneydbConnector(BaseConnector):
                 twitter_last_seen = None
                 for dict_ip in ips:
                     if ip == dict_ip['remote_host']:
-                        twitter_count = dict_ip['count']
+                        twitter_count = int(dict_ip['count'])
                         twitter_last_seen = dict_ip['last_seen']
 
                 # Only call 'twitter-threat-feed' with the ip if we found an IP, otherwise it would
@@ -340,10 +340,10 @@ if __name__ == '__main__':
 
             headers = dict()
             headers['Cookie'] = 'csrftoken=' + csrftoken
-            headers['Referer'] = 'https://127.0.0.1/login'
+            headers['Referer'] = login_url
 
             print("Logging into Platform to get the session id")
-            r2 = requests.post("https://127.0.0.1/login", verify=False, data=data, headers=headers)
+            r2 = requests.post(login_url, verify=False, data=data, headers=headers)
             session_id = r2.cookies['sessionid']
         except Exception as e:
             print("Unable to get session id from the platfrom. Error: " + str(e))

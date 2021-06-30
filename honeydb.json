@@ -156,39 +156,36 @@
                     ]
                 },
                 {
-                    "data_path": "summary.ip",
+                    "data_path": "action_result.summary.ip",
                     "data_type": "string",
                     "example_values": [
                         "45.79.12.9"
-                    ],
-                    "contains": [
-                        "ip"
                     ]
                 },
                 {
-                    "data_path": "summary.bad_hosts_count",
+                    "data_path": "action_result.summary.bad_hosts_count",
                     "data_type": "numeric",
                     "example_values": [
                         623
                     ]
                 },
                 {
-                    "data_path": "summary.bad_hosts_last_seen",
-                    "data_type": "numeric",
+                    "data_path": "action_result.summary.bad_hosts_last_seen",
+                    "data_type": "string",
                     "example_values": [
                         "2017-07-27"
                     ]
                 },
                 {
-                    "data_path": "summary.twitter_count",
+                    "data_path": "action_result.summary.twitter_count",
                     "data_type": "numeric",
                     "example_values": [
                         712
                     ]
                 },
                 {
-                    "data_path": "summary.twitter_last_seen",
-                    "data_type": "numeric",
+                    "data_path": "action_result.summary.twitter_last_seen",
+                    "data_type": "string",
                     "example_values": [
                         "2017-07-30"
                     ]
@@ -206,7 +203,23 @@
                 {
                     "data_path": "action_result.parameter.feed",
                     "data_type": "string",
-                    "example_value": ""
+                    "example_value": [
+                        ""
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
                 }
             ],
             "render": {
