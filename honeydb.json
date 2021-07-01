@@ -17,6 +17,10 @@
     "min_phantom_version": "4.9.39220",
     "app_wizard_version": "1.0.0",
     "python_version": "3",
+    "latest_tested_version": [
+        "cloud, api/v1 tested on !st July, 2021"
+    ],
+
     "configuration": {
         "api_id": {
             "description": "HoneyDB API ID",
@@ -84,8 +88,8 @@
                 {
                     "data_path": "action_result.parameter.feed",
                     "data_type": "string",
-                    "example_value": [
-                        ""
+                    "example_values": [
+                        "Both"
                     ]
                 },
                 {
