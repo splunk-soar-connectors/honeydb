@@ -5,6 +5,7 @@
 # without a valid written license from Splunk Inc. is PROHIBITED.
 
 # Phantom App imports
+from honeydb_consts import BASE_URL
 import phantom.app as phantom
 from phantom.base_connector import BaseConnector
 from phantom.action_result import ActionResult
@@ -29,11 +30,6 @@ class HoneydbConnector(BaseConnector):
         super(HoneydbConnector, self).__init__()
 
         self._state = None
-
-        # Variable to hold a base_url in case the app makes REST calls
-        # Do note that the app json defines the asset config, so please
-        # modify this as you deem fit.
-        self._base_url = "https://honeydb.io/api"
 
     def _process_empty_reponse(self, response, action_result):
 
@@ -126,7 +122,7 @@ class HoneydbConnector(BaseConnector):
             return RetVal(action_result.set_status(phantom.APP_ERROR, "Invalid method: {0}".format(method)), resp_json)
 
         # Create a URL to connect to
-        url = self._base_url + endpoint
+        url = BASE_URL + endpoint
 
         try:
             r = request_func(
@@ -181,9 +177,9 @@ class HoneydbConnector(BaseConnector):
         summary = action_result.update_summary({})
         summary['ip'] = ip
         summary['bad_hosts_count'] = 0
-        summary['bad_hosts_last_seen'] = '0000-00-00'
+        summary['bad_hosts_last_seen'] = None
         summary['twitter_count'] = 0
-        summary['twitter_last_seen'] = '0000-00-00'
+        summary['twitter_last_seen'] = None
 
         if feed in ('bad hosts', 'both'):
             # These are hosts that have sent info back to the HoneyDB.
@@ -221,8 +217,8 @@ class HoneydbConnector(BaseConnector):
                 return action_result.get_status()
 
             if len(ips) > 0:
-                twitter_count = None
-                twitter_last_seen = None
+                twitter_count = summary['twitter_count']
+                twitter_last_seen = summary['twitter_last_seen']
                 for dict_ip in ips:
                     if ip == dict_ip['remote_host']:
                         twitter_count = int(dict_ip['count'])

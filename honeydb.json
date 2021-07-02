@@ -18,7 +18,7 @@
     "app_wizard_version": "1.0.0",
     "python_version": "3",
     "latest_tested_version": [
-        "cloud, api/v1 tested on !st July, 2021"
+        "cloud, api/v1 tested on 1st July, 2021"
     ],
 
     "configuration": {
