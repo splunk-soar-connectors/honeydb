@@ -8,7 +8,7 @@
     "logo_dark": "logo_honeydb_dark.svg",
     "product_name": "HoneyDB",
     "product_version_regex": ".*",
-    "publisher": "Phantom",
+    "publisher": "Splunk",
     "license": "Copyright (c) 2018-2021 Splunk Inc.",
     "app_version": "2.0.1",
     "utctime_updated": "2021-07-09T04:38:21.000000Z",
@@ -126,7 +126,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.last_seen",
-                    "data_type": "numeric",
+                    "data_type": "string",
                     "column_name": "Date Last Seen",
                     "column_order": 3,
                     "example_values": [
