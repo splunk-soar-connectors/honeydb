@@ -1,17 +1,11 @@
 # File: honeydb_connector.py
+# Copyright (c) 2018-2021 Splunk Inc.
 #
-# Copyright (c) Phantom Cyber Corporation, 2017-2018
-#
-# This unpublished material is proprietary to Phantom Cyber.
-# All rights reserved. The methods and
-# techniques described herein are considered trade secrets
-# and/or confidential. Reproduction or distribution, in whole
-# or in part, is forbidden except by express written permission
-# of Phantom Cyber.
-#
-# --
+# SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
+# without a valid written license from Splunk Inc. is PROHIBITED.
 
 # Phantom App imports
+from honeydb_consts import BASE_URL
 import phantom.app as phantom
 from phantom.base_connector import BaseConnector
 from phantom.action_result import ActionResult
@@ -36,11 +30,6 @@ class HoneydbConnector(BaseConnector):
         super(HoneydbConnector, self).__init__()
 
         self._state = None
-
-        # Variable to hold a base_url in case the app makes REST calls
-        # Do note that the app json defines the asset config, so please
-        # modify this as you deem fit.
-        self._base_url = "https://riskdiscovery.com/honeydb/api"
 
     def _process_empty_reponse(self, response, action_result):
 
@@ -133,7 +122,7 @@ class HoneydbConnector(BaseConnector):
             return RetVal(action_result.set_status(phantom.APP_ERROR, "Invalid method: {0}".format(method)), resp_json)
 
         # Create a URL to connect to
-        url = self._base_url + endpoint
+        url = BASE_URL + endpoint
 
         try:
             r = request_func(
@@ -188,9 +177,9 @@ class HoneydbConnector(BaseConnector):
         summary = action_result.update_summary({})
         summary['ip'] = ip
         summary['bad_hosts_count'] = 0
-        summary['bad_hosts_last_seen'] = '0000-00-00'
+        summary['bad_hosts_last_seen'] = None
         summary['twitter_count'] = 0
-        summary['twitter_last_seen'] = '0000-00-00'
+        summary['twitter_last_seen'] = None
 
         if feed in ('bad hosts', 'both'):
             # These are hosts that have sent info back to the HoneyDB.
@@ -208,7 +197,7 @@ class HoneydbConnector(BaseConnector):
                         action_result.add_data({
                             'ip': ip,
                             'feed': 'Bad Hosts',
-                            'count': dict_ip['count'],
+                            'count': int(dict_ip['count']),
                             'last_seen': dict_ip['last_seen'],
                             'tweet': {
                                 'id': None,
@@ -216,7 +205,7 @@ class HoneydbConnector(BaseConnector):
                                 'screen_name': None,
                                 'text': None,
                             }})
-                        summary['bad_hosts_count'] = dict_ip['count']
+                        summary['bad_hosts_count'] = int(dict_ip['count'])
                         summary['bad_hosts_last_seen'] = dict_ip['last_seen']
 
         if feed in ('twitter', 'both'):
@@ -228,11 +217,11 @@ class HoneydbConnector(BaseConnector):
                 return action_result.get_status()
 
             if len(ips) > 0:
-                twitter_count = None
-                twitter_last_seen = None
+                twitter_count = summary['twitter_count']
+                twitter_last_seen = summary['twitter_last_seen']
                 for dict_ip in ips:
                     if ip == dict_ip['remote_host']:
-                        twitter_count = dict_ip['count']
+                        twitter_count = int(dict_ip['count'])
                         twitter_last_seen = dict_ip['last_seen']
 
                 # Only call 'twitter-threat-feed' with the ip if we found an IP, otherwise it would
@@ -327,9 +316,10 @@ if __name__ == '__main__':
         password = getpass.getpass("Password: ")
 
     if (username and password):
+        login_url = BaseConnector._get_phantom_base_url() + "login"
         try:
-            print ("Accessing the Login page")
-            r = requests.get("https://127.0.0.1/login", verify=False)
+            print("Accessing the Login page")
+            r = requests.get(login_url, verify=False)
             csrftoken = r.cookies['csrftoken']
 
             data = dict()
@@ -339,13 +329,13 @@ if __name__ == '__main__':
 
             headers = dict()
             headers['Cookie'] = 'csrftoken=' + csrftoken
-            headers['Referer'] = 'https://127.0.0.1/login'
+            headers['Referer'] = login_url
 
-            print ("Logging into Platform to get the session id")
-            r2 = requests.post("https://127.0.0.1/login", verify=False, data=data, headers=headers)
+            print("Logging into Platform to get the session id")
+            r2 = requests.post(login_url, verify=False, data=data, headers=headers)
             session_id = r2.cookies['sessionid']
         except Exception as e:
-            print ("Unable to get session id from the platfrom. Error: " + str(e))
+            print("Unable to get session id from the platform. Error: " + str(e))
             exit(1)
 
     with open(args.input_test_json) as f:
@@ -361,6 +351,6 @@ if __name__ == '__main__':
             connector._set_csrf_info(csrftoken, headers['Referer'])
 
         ret_val = connector._handle_action(json.dumps(in_json), None)
-        print (json.dumps(json.loads(ret_val), indent=4))
+        print(json.dumps(json.loads(ret_val), indent=4))
 
     exit(0)
