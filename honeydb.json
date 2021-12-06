@@ -50,7 +50,7 @@
             "action": "lookup ip",
             "identifier": "lookup_ip",
             "description": "Check for the presence of an IP in a threat intelligence feed",
-            "verbose": "Source feed to use for IP lookup:<ul><li><b>Both</b>: Merges the Bad Hosts and Twitter feed list of JSON dictionaries and searches for the IP with the additional information from Twitter for that specific IP</li><li><b>Bad Hosts</b>: Searches only in the list of bad hosts with no additional data from Twitter</li><li><b>Twitter</b>: Searches the IP in the Twitter feed with a list of tweets associated with that IP</li></ul>",
+            "verbose": "Source feed to use for IP lookup:<ul><li><b>Both</b>: Merges the Bad Hosts and Twitter feed list of JSON dictionaries and searches for the IP with the additional information from Twitter for that specific IP</li><li><b>Bad Hosts</b>: Searches only in the list of bad hosts with no additional data from Twitter</li><li><b>Twitter</b>: Searches the IP in the Twitter feed with a list of tweets associated with that IP</li></ul>.",
             "type": "investigate",
             "read_only": true,
             "parameters": {
