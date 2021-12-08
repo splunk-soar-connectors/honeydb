@@ -10,14 +10,14 @@
     "product_version_regex": ".*",
     "publisher": "Splunk",
     "license": "Copyright (c) 2018-2021 Splunk Inc.",
-    "app_version": "2.0.4",
-    "utctime_updated": "2021-07-12T05:52:23.000000Z",
+    "app_version": "2.0.5",
+    "utctime_updated": "2021-12-08T17:34:35.000000Z",
     "package_name": "phantom_honeydb",
     "main_module": "honeydb_connector.py",
     "min_phantom_version": "4.9.39220",
     "app_wizard_version": "1.0.0",
     "python_version": "3",
-    "fips_compliant":true,
+    "fips_compliant": true,
     "latest_tested_version": [
         "cloud, api/v1 tested on 1st July, 2021"
     ],
