@@ -2,7 +2,7 @@
 # HoneyDB
 
 Publisher: Splunk  
-Connector Version: 2\.0\.5  
+Connector Version: 2\.0\.7  
 Product Vendor: HoneyDB  
 Product Name: HoneyDB  
 Product Version Supported (regex): "\.\*"  
