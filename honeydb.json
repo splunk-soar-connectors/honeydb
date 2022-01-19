@@ -9,14 +9,15 @@
     "product_name": "HoneyDB",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) 2018-2021 Splunk Inc.",
-    "app_version": "2.0.5",
-    "utctime_updated": "2021-07-13T00:29:47.000000Z",
+    "license": "Copyright (c) 2018-2022 Splunk Inc.",
+    "app_version": "2.0.7",
+    "utctime_updated": "2022-01-14T00:10:49.000000Z",
     "package_name": "phantom_honeydb",
     "main_module": "honeydb_connector.py",
     "min_phantom_version": "4.9.39220",
     "app_wizard_version": "1.0.0",
     "python_version": "3",
+    "fips_compliant": true,
     "latest_tested_version": [
         "cloud, api/v1 tested on 1st July, 2021"
     ],
@@ -49,7 +50,7 @@
             "action": "lookup ip",
             "identifier": "lookup_ip",
             "description": "Check for the presence of an IP in a threat intelligence feed",
-            "verbose": "Source feed to use for IP lookup:<ul><li><b>Both</b>: Merges the Bad Hosts and Twitter feed list of JSON dictionaries and searches for the IP with the additional information from Twitter for that specific IP</li><li><b>Bad Hosts</b>: Searches only in the list of bad hosts with no additional data from Twitter</li><li><b>Twitter</b>: Searches the IP in the Twitter feed with a list of tweets associated with that IP</li></ul>",
+            "verbose": "Source feed to use for IP lookup:<ul><li><b>Both</b>: Merges the Bad Hosts and Twitter feed list of JSON dictionaries and searches for the IP with the additional information from Twitter for that specific IP</li><li><b>Bad Hosts</b>: Searches only in the list of bad hosts with no additional data from Twitter</li><li><b>Twitter</b>: Searches the IP in the Twitter feed with a list of tweets associated with that IP</li></ul>.",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -219,5 +220,37 @@
             },
             "versions": "EQ(*)"
         }
-    ]
+    ],
+    "pip_dependencies": {
+        "wheel": [
+            {
+                "module": "beautifulsoup4",
+                "input_file": "wheels/beautifulsoup4-4.9.1-py3-none-any.whl"
+            },
+            {
+                "module": "certifi",
+                "input_file": "wheels/certifi-2021.10.8-py2.py3-none-any.whl"
+            },
+            {
+                "module": "chardet",
+                "input_file": "wheels/chardet-3.0.4-py2.py3-none-any.whl"
+            },
+            {
+                "module": "idna",
+                "input_file": "wheels/idna-2.10-py2.py3-none-any.whl"
+            },
+            {
+                "module": "requests",
+                "input_file": "wheels/requests-2.25.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "soupsieve",
+                "input_file": "wheels/soupsieve-2.3.1-py3-none-any.whl"
+            },
+            {
+                "module": "urllib3",
+                "input_file": "wheels/urllib3-1.26.8-py2.py3-none-any.whl"
+            }
+        ]
+    }
 }
