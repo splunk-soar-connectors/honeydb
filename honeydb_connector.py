@@ -191,6 +191,8 @@ class HoneydbConnector(BaseConnector):
 
         if feed in ('bad hosts', 'both'):
             # These are hosts that have sent info back to the HoneyDB.
+            self.save_progress("Requesting host info...")
+
             ret_val, ips = self._make_rest_call(
                 '/bad-hosts',
                 action_result, params=None, headers=None)

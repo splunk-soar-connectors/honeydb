@@ -14,7 +14,7 @@
     "utctime_updated": "2022-01-14T00:10:49.000000Z",
     "package_name": "phantom_honeydb",
     "main_module": "honeydb_connector.py",
-    "min_phantom_version": "4.9.39220",
+    "min_phantom_version": "5.1.0",
     "app_wizard_version": "1.0.0",
     "python_version": "3",
     "fips_compliant": true,
