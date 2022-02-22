@@ -343,7 +343,7 @@ if __name__ == '__main__':
             headers['Referer'] = login_url
 
             print("Logging into Platform to get the session id")
-            r2 = requests.post(login_url, verify=verify_cert, data=data, headers=headers)
+            r2 = requests.post(login_url, verify=verify_cert, data=data, headers=headers, timeout=30)
             session_id = r2.cookies['sessionid']
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
