@@ -299,8 +299,8 @@ class HoneydbConnector(BaseConnector):
 
 
 if __name__ == '__main__':
-
     import argparse
+    import sys
 
     import pudb
 
@@ -311,12 +311,14 @@ if __name__ == '__main__':
     argparser.add_argument('input_test_json', help='Input Test JSON file')
     argparser.add_argument('-u', '--username', help='username', required=False)
     argparser.add_argument('-p', '--password', help='password', required=False)
+    argparser.add_argument('-verify', '--verify_cert', help='verify certificate', action='store_true')
 
     args = argparser.parse_args()
     session_id = None
 
     username = args.username
     password = args.password
+    verify_cert = args.verify_cert
 
     if (username is not None and password is None):
 
@@ -328,7 +330,7 @@ if __name__ == '__main__':
         login_url = BaseConnector._get_phantom_base_url() + "login"
         try:
             print("Accessing the Login page")
-            r = requests.get(login_url, verify=False)
+            r = requests.get(login_url, verify=verify_cert, timeout=30)
             csrftoken = r.cookies['csrftoken']
 
             data = dict()
@@ -341,11 +343,11 @@ if __name__ == '__main__':
             headers['Referer'] = login_url
 
             print("Logging into Platform to get the session id")
-            r2 = requests.post(login_url, verify=False, data=data, headers=headers)
+            r2 = requests.post(login_url, verify=verify_cert, data=data, headers=headers)
             session_id = r2.cookies['sessionid']
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
-            exit(1)
+            sys.exit(1)
 
     with open(args.input_test_json) as f:
         in_json = f.read()
@@ -362,4 +364,4 @@ if __name__ == '__main__':
         ret_val = connector._handle_action(json.dumps(in_json), None)
         print(json.dumps(json.loads(ret_val), indent=4))
 
-    exit(0)
+    sys.exit(0)
