@@ -1,6 +1,6 @@
 # File: honeydb_connector.py
 #
-# Copyright (c) 2018-2022 Splunk Inc.
+# Copyright (c) 2018-2023 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -234,6 +234,7 @@ class HoneydbConnector(BaseConnector):
 
                 # Only call 'twitter-threat-feed' with the ip if we found an IP, otherwise it would
                 # be weird if it found some additional tweets
+                self.debug_print("Making REST Call")
                 ret_val, tweets = self._make_rest_call(
                     '/twitter-threat-feed/{}'.format(ip),
                     action_result, params=None, headers=None)
