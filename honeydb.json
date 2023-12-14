@@ -9,7 +9,7 @@
     "product_name": "HoneyDB",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) 2018-2022 Splunk Inc.",
+    "license": "Copyright (c) 2018-2023 Splunk Inc.",
     "app_version": "2.0.8",
     "utctime_updated": "2022-01-14T00:10:49.000000Z",
     "package_name": "phantom_honeydb",
